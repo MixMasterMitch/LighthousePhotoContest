@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lighthouse Photo Contest</title>
+    <link href="resources/lpc.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Sanchez' rel='stylesheet' type='text/css'>
+    <script src="resources/jquery.js"> </script>
+    <script src="resources/lpc.js"> </script>
+    <script src="resources/facebook.js"> </script>
+</head>
+
+<body>
+    <h1>Lighthouse Photo Contest</h1>
+
+    <ul id="pictures">
+        <!-- Pictures are injected here -->
+    </ul>
+    
+    <div id="selectedPicture" class="hidden">
+        <img id="selectedPictureImg" alt="test" src="" /> <!-- alt and src are set by lpc.js -->
+        <img id="cancel" src="resources/x.png" />
+        <div id="footer">
+            <button id="voteButton">Vote</button>
+            <div id="caption"></div>
+        </div>
+    </div>
+    <div class="glass hidden"></div>
+</body>
+</html>
