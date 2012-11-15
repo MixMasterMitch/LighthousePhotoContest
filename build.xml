@@ -1,0 +1,89 @@
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="LighthousePhotoContest" default="release">    
+    <property name="version" value="1.0"/>
+    
+    <property name="ant.build.javac.source" value="1.6" />
+    <property name="ant.build.javac.target" value="1.6" />
+    
+    <property name="javac.compiler.flags" value="-Xlint:all,-serial,-fallthrough"/>
+    <property name="build.output.dir" value="${basedir}/build/output"/>
+    <property name="build.output.private.dir" value="${build.output.dir}/private"/>
+    <property name="build.output.src.dir" value="${build.output.private.dir}/src"/>
+    <property name="build.output.tst.dir" value="${build.output.private.dir}/tst"/>
+    <property name="build.output.lib.dir" value="${build.output.dir}/lib"/>
+    <property name="build.output.war.dir" value="${build.output.private.dir}/war"/>
+    <property name="build.output.war.lib.dir" value="${build.output.war.dir}/WEB-INF/lib"/>
+    <property name="src.dir" value="${basedir}/src"/>
+    <property name="lib.dir" value="${basedir}/lib"/>
+    <property name="war.dir" value="${basedir}/war"/>
+    <property name="war.name" value="ROOT"/>
+    
+    
+    <target name="release" depends="war"/>
+    
+    <target name="clean">
+        <delete dir="${build.output.dir}" />
+        <delete dir="${war.dir}/WEB-INF/lib" />
+    </target>
+    
+    <target name="lib-classpath">
+        <path id="lib.classpath.ref">
+            <fileset dir="${lib.dir}">
+                   <include name="**/*.jar"/>
+            </fileset>
+        </path>
+    </target>
+    
+    <target name="src-compile" depends="lib-classpath">
+        <mkdir dir="${build.output.src.dir}" />
+        <echo-classpath refid="lib.classpath.ref"/>
+        <javac srcdir="${src.dir}"
+               destdir="${build.output.src.dir}"
+               classpathref="lib.classpath.ref"
+               debug="on"
+        />
+        <copy todir="${build.output.src.dir}" verbose="true">
+            <fileset dir="${src.dir}">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    
+    <target name="jar" depends="src-compile">
+        <mkdir dir="${build.output.lib.dir}" />
+        <jar destfile="${build.output.lib.dir}/${ant.project.name}.jar"
+             basedir="${build.output.src.dir}"
+        />
+    </target>
+    
+    
+    <target name="setup-war-directory">
+        <copy todir="${build.output.war.lib.dir}">
+            <fileset dir="${build.output.lib.dir}" />
+            <flattenmapper/>
+        </copy>
+        <copy todir="${build.output.war.dir}">
+            <fileset dir="${war.dir}">
+                <exclude name="WEB-INF/**"/>
+            </fileset>
+        </copy>
+    </target>
+    
+    <target name="war" depends="jar,setup-war-directory">
+        <war destfile="${build.output.dir}/${war.name}.war" webxml="${war.dir}/WEB-INF/web.xml">
+            <lib dir="${build.output.war.lib.dir}"/>
+            <fileset dir="${build.output.war.dir}">
+                <exclude name="WEB-INF/**"/>
+            </fileset>
+        </war>
+    </target>
+    
+    <macrodef name="echo-classpath">
+        <attribute name="refid" description="Classpath reference id to define"/>
+        <sequential>
+            <pathconvert property="@{refid}.echo" refid="@{refid}" />
+            <echo message="${@{refid}.echo}"/>
+        </sequential>
+    </macrodef>
+
+</project>
+
