@@ -6,13 +6,7 @@ body {
   background-image: url(background.png);
   font-family: Sanchez;
   margin: 0;
-}
-
-h1 {
-  margin: 0;
   color: #fff;
-  padding: 10px;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,.6)), color-stop(100%,rgba(0,0,0,0)));
 }
 
 .picture {
@@ -79,6 +73,7 @@ h1 {
 
 #selectedPictureImg {
   width: 100%;
+  vertical-align: bottom;
 }
 
 
@@ -92,8 +87,7 @@ h1 {
   padding: 20px;
   z-index: 1000;
   position: absolute;
-  bottom: 4px;
-  color: #eee;
+  bottom: 0;
 }
 
 .glass {
@@ -110,9 +104,6 @@ h1 {
   top: 10px;
   right: 10px;
   height: 15px;
-  -webkit-box-shadow: 0px 0px 25px rgba(0, 0, 0, 1);
-  -moz-box-shadow: 0px 0px 25px rgba(0, 0, 0, 1);
-  box-shadow: 0px 0px 25px rgba(0, 0, 0, 1);
 }
 
 #voteButton {
@@ -154,4 +145,27 @@ li:hover {
 
 .hidden {
   display: none;
+}
+
+#header {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,.6)), color-stop(100%,rgba(0,0,0,0)));
+  
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  box-orient: horizontal;
+  
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+}
+
+#header > * {
+  margin: 0;
+  padding: 10px;
+}
+
+.spacer {
+  -moz-box-flex: 1;
+  -webkit-box-flex: 1;
+  box-flex: 1;
 }

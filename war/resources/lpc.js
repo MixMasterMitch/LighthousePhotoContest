@@ -1,27 +1,11 @@
 window.onload = function() {
 	
 	// Load pictures (To be done via AJAX in the future)
-	loadPicture("pictures/berty_2.jpeg", "'Now we see but a poor reflection as in a mirror; then we shall see face to face.' 1 Corinthians 13:12")
-	loadPicture("pictures/jacob_2.jpeg", "Even Garth finds wisdom in Proverbs.")
-	loadPicture("pictures/eli_2.jpeg", "'The light shines in the darkness and the darkness can never extinguish it' John 1:5")
-	loadPicture("pictures/mitch_2.jpeg", "'There's more, God's word warns us of danger and directs us to hidden treasure.' Psalm 19:11")
-	loadPicture("pictures/tore_2.jpeg", "Man cannot live on waffles alone ...")
-
-	// Randomly shift and rotate pictures
-	$("li").each(function(index, Element) {
-		rotateElement($(Element), 4);
-		shiftElement($(Element), 7);
-		$(Element).hover(
-			function() {
-				scaleElement($(this), 1.2);
-				bringForward($(this), 100);
-			}, function() {
-				rotateElement($(this), 4);
-				bringForward($(this), -100);
-			}
-		);
-		$(Element).click(updateSelectedPicture);
-	});
+	loadPicture("pictures/berty_2.jpeg", "'Now we see but a poor reflection as in a mirror; then we shall see face to face.' 1 Corinthians 13:12");
+	loadPicture("pictures/jacob_2.jpeg", "Even Garth finds wisdom in Proverbs.");
+	loadPicture("pictures/eli_2.jpeg", "'The light shines in the darkness and the darkness can never extinguish it' John 1:5");
+	loadPicture("pictures/mitch_2.jpeg", "'There's more, God's word warns us of danger and directs us to hidden treasure.' Psalm 19:11");
+	loadPicture("pictures/tore_2.jpeg", "Man cannot live on waffles alone ...");
 	
 	// Add event handlers
 	$(".glass, #cancel").click(toggleSelectedPicture);
@@ -34,15 +18,18 @@ window.onload = function() {
 		}
 	);
 	$("#voteButton").click(function() {
-		getFbId(vote);
+		if (user) {
+			vote();
+		}
+		fbLogin(vote);
 	})
 }
 
 // Updates the selectedPicture to be the picture that was just clicked.
 function updateSelectedPicture() {
-	toggleSelectedPicture();
 	$("#selectedPictureImg").attr("src", $(this).children()[0].src);
 	$("#caption").text($(this).children()[0].alt);
+	toggleSelectedPicture();
 }
 
 // Toggles the selected picture
@@ -104,17 +91,33 @@ function postToUrl(path, params) {
 
 // Loads the given picture and injects it into the page
 function loadPicture(src, caption) {
-	var picture = $("<li>", {
-		"class": "picture"
-	});
 	$("<img>", {
 		"src": src,
 		"alt": caption
-	}).appendTo(picture);
-	picture.appendTo($("#pictures"));
+	}).load(function() {
+		var picture = $("<li>", {
+			"class": "picture"
+		});
+		$(this).appendTo(picture);
+		picture.appendTo($("#pictures"));
+		
+		// Randomly shift and rotate pictures
+		rotateElement(picture, 4);
+		shiftElement(picture, 7);
+		picture.hover(
+			function() {
+				scaleElement($(this), 1.2);
+				bringForward($(this), 100);
+			}, function() {
+				rotateElement($(this), 4);
+				bringForward($(this), -100);
+			}
+		);
+		picture.click(updateSelectedPicture);
+	});
 }
 
-// Submits the given Facebook user's vote for the selected picture
-function vote(fbId) {
-	postToUrl("vote_submit.php", {"facebook_id": fbId, "picture_id": $("#selectedPictureImg").attr("src")});
+// Submits the Facebook user's vote for the selected picture
+function vote() {
+	postToUrl("vote_submit.php", {"facebook_id": user.id, "picture_id": $("#selectedPictureImg").attr("src")});
 }

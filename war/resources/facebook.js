@@ -1,5 +1,9 @@
-// These are the functions and neccessary to interact with Facebook
+// These are the functions and needed to interact with Facebook
 // See http://developers.facebook.com/docs/howtos/login/getting-started/
+
+//Contains data about the user. Undefined until the user logs in.
+var user;
+			
 window.fbAsyncInit = function() {
 	FB.init({
 		appId      : '381115968629714', // App ID
@@ -8,34 +12,49 @@ window.fbAsyncInit = function() {
 		cookie     : true, // enable cookies to allow the server to access the session
 		xfbml      : true  // parse XFBML
 	});
+	
+	//Automatically logs the user in if possible
+	FB.getLoginStatus(
+		function(response) {
+			console.log("got user status");
+			if(response.status === 'connected') {
+				loadFbUserData(response.authResponse.userID);
+			}
+		}
+	);
 };
  
-// Load the SDK Asynchronously
-(function(d) {
-	var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-	if (d.getElementById(id)) {
-		return;
-	}
-	js = d.createElement('script'); 
-	js.id = id; 
-	js.async = true;
-	js.src = "http://connect.facebook.net/en_US/all.js";
-	ref.parentNode.insertBefore(js, ref);
-}(document));
+// Load the Facebook JS SDK
+(function () {
+	$("<script>", {
+		id: "facebook-jssdk",
+		src: "http://connect.facebook.net/en_US/all.js"
+	}).insertBefore($("script").first());
+})();
+console.log("fb loading");
 
-// First checks if the user is already logged in and authenticated
-// If the user isn't, then the user is prompted to log in and authenticate
-function getFbId(callback) {
-	FB.getLoginStatus(function(response) {
-		if (response.status === 'connected') {// logged in and authenticated
-			callback(response.authResponse.userID);
- 	  	} else {// not logged in and/or authenticated
- 	  		//login and authenticate
-  	  		FB.login(function(response) {
-				if (response.authResponse) {
-					callback(response.authResponse.userID);
-				}
-  	  		});
- 	  	}
-  	});
+// Forces the user to log into Facebook and then calls the 
+// callback method when the user profile has been loaded.
+function fbLogin(callback) {
+	FB.login(function(response) {
+		if (response.authResponse) {
+			loadFbUserData(response.authResponse.userID, callback);
+		}
+	});
 }
+
+// Loads the user profile with the given id and calls callback when finished.
+function loadFbUserData(id, callback) {
+	$.ajax({
+		url: "http://graph.facebook.com/" + id + "?fields=name",
+		dataType: "JSON"
+	}).done(function(userData) {
+		console.log("got user data");
+		user = userData;
+		$("#login").html(user.name);
+		if (callback) {
+			callback();
+		}
+	});
+}
+
