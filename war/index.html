@@ -14,6 +14,12 @@
         <h1>Lighthouse Photo Contest</h1>
         <div class="spacer"></div>
         <div id="login">Login</div>
+        <div id="user" class="hidden"></div>
+        <div id="userOptions" class="hidden">
+            <ul>
+                <li id="upload">Upload a Picture</li>
+            </ul>
+        </div>
     </div>
 
     <ul id="pictures">
@@ -29,5 +35,38 @@
         </div>
     </div>
     <div class="glass hidden"></div>
+    
+    <div id="alreadyVoted" class="message tilted hidden">
+        <h2>Hey! You already voted!</h2>
+        <p>No you can't change your vote. Don't worry, Jesus still loves you even though you made a mistake.</p>
+    </div>
+    
+    <div id="thanksForVoting" class="message tilted hidden">
+        <h2>Thanks for voting!</h2>
+        <p>Come back next week to see this weeks winner and vote for new pictures.</p>
+    </div>
+    
+    <div id="thanksForUploading" class="message tilted hidden">
+        <h2>Thanks for uploading!</h2>
+        <p>You should see your picture on the home page Monday evening.</p>
+    </div>
+    
+    <div id="uploadForm" class="message">
+        <h2>Upload a picture:</h2>
+        <p>The item for this week's photo contest is an <strong>N64 Controller</strong>.</p>
+        
+        <form>
+	        <label>Name</label>
+	        <p class="name">Mitchell Loeppky</p>
+	        
+	        <label>Picture</label>
+	        <input type="file">
+	        
+	        <label>Caption</label>
+            <input type="text" maxlength="140">
+        </form>
+        
+        <button id="uploadButton">Upload</button>
+    </div>
 </body>
 </html>

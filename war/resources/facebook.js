@@ -51,7 +51,9 @@ function loadFbUserData(id, callback) {
 	}).done(function(userData) {
 		console.log("got user data");
 		user = userData;
-		$("#login").html(user.name);
+		$("#login").toggle();
+		$("#user").html(user.name);
+		$("#user").toggle();
 		if (callback) {
 			callback();
 		}

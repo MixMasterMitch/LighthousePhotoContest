@@ -20,9 +20,31 @@ window.onload = function() {
 	$("#voteButton").click(function() {
 		if (user) {
 			vote();
+		} else {
+			fbLogin(vote);
 		}
-		fbLogin(vote);
-	})
+	});
+	$("#login").click(fbLogin);
+	$("#uploadButton").click(uploadPicture);
+	$("#user").hover(showUserOptions, hideUserOptions);
+	$("#userOptions").hover(showUserOptions, hideUserOptions);
+	$("#upload").click(function() {
+		hideAll();
+		hideUserOptions();
+		$("#uploadForm").show();
+	});
+}
+
+// Hides the userOptions element
+function hideUserOptions() {
+	$("#userOptions").addClass("hidden");
+	$("#user").removeClass("userHover");
+}
+
+// Shows the userOptions element
+function showUserOptions() {
+	$("#userOptions").removeClass("hidden");
+	$("#user").addClass("userHover");
 }
 
 // Updates the selectedPicture to be the picture that was just clicked.
@@ -70,25 +92,6 @@ function bringForward(element, zIndexes) {
 	element.css("z-index", Math.max(0, zIndexes + parseInt(element.css("z-index"))));
 }
 
-// Posts the given parameters to the given URL path using a hidden form.
-// http://stackoverflow.com/questions/133925/javascript-post-request-like-a-form-submit
-function postToUrl(path, params) {
-	var hiddenForm = $("<form>", {method: "post", action: path});
-	
-    for(var key in params) {
-        if(params.hasOwnProperty(key)) {
-            $("<input>", {
-            	type: "hidden",
-            	name: "key",
-            	value: params[key]
-            }).appendTo(hiddenForm);
-         }
-    }
-
-    hiddenForm.appendTo($("body"));
-    hiddenForm.submit();
-}
-
 // Loads the given picture and injects it into the page
 function loadPicture(src, caption) {
 	$("<img>", {
@@ -119,5 +122,38 @@ function loadPicture(src, caption) {
 
 // Submits the Facebook user's vote for the selected picture
 function vote() {
-	postToUrl("vote_submit.php", {"facebook_id": user.id, "picture_id": $("#selectedPictureImg").attr("src")});
+	$.ajax({
+		method: "POST",
+		url: "vote_submit.php",
+		data: {"facebook_id": user.id, "picture_id": $("#selectedPictureImg").attr("src")},
+		dataType: "JSON"
+	}).done(function(response) {
+		hideAll();
+		if(response.voteStatus === "success") {
+			$("#thanksForVoting").show();
+		} else {
+			$("#alreadyVoted").show();
+		}
+	});
+}
+
+// http://stackoverflow.com/questions/166221/how-can-i-upload-files-asynchronously-with-jquery
+function uploadPicture() {
+	$.ajax({
+        url: 'upload.php',  //server script to process data
+        type: 'POST',
+        data: new FormData($("#uploadForm form")[0]),
+        //Options to tell JQuery not to process data or worry about content-type
+        cache: false,
+        contentType: false,
+        processData: false
+    }).done(function(response) {
+    	hideAll();
+    	$("#thanksForUploading").show();
+	});
+}
+
+// Hides ever element except the header element
+function hideAll() {
+	$("body > *").not("#header").hide();
 }

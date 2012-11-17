@@ -29,6 +29,13 @@ body {
   height: 200px;
 }
 
+.tilted {
+  -webkit-transform: rotate(-2deg) translate3d( 0, 0, 0);
+  -moz-transform: rotate(-2deg) translate3d( 0, 0, 0);
+  transform: rotate(-2deg) translate3d( 0, 0, 0);
+}
+
+
 .message {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -41,9 +48,6 @@ body {
   -webkit-box-shadow: 0px 0px 100px rgba(0, 0, 0, 1);
   -moz-box-shadow: 0px 0px 100px rgba(0, 0, 0, 1);
   box-shadow: 0px 0px 100px rgba(0, 0, 0, 1);
-  -webkit-transform: rotate(-2deg) translate3d( 0, 0, 0);
-  -moz-transform: rotate(-2deg) translate3d( 0, 0, 0);
-  transform: rotate(-2deg) translate3d( 0, 0, 0);
 }
 
 .message h2 {
@@ -108,38 +112,50 @@ body {
 
 #voteButton {
   float: right;
-  -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
-  -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+}
+
+button {
+  display: block;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
+  
   background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #eee), color-stop(1, #ddd) );
   background:-moz-linear-gradient( center top, #eee 5%, #ddd 100% );
   background:linear-gradient( center top, #eee 5%, #ddd 100% );
-  -moz-border-radius:6px;
-  -webkit-border-radius:6px;
-  border-radius:6px;
+  -moz-border-radius:4px;
+  -webkit-border-radius:4px;
+  border-radius:4px;
   border:1px solid #dcdcdc;
   color:#333;
   font-weight:bold;
-  padding:3px 12px;
+  padding:4px 12px;
   text-decoration:none;
-  text-shadow:1px 1px 0px #ffffff;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
   font-family: Sanchez;
-  font-size: 12px;
+  font-size: 14px;
+  line-height: 20px;
+  vertical-align: middle;
+  text-align: center;
 }
 
-#voteButton:hover {
+button:hover {
   background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ddd), color-stop(1, #eee) );
   background:-moz-linear-gradient( center top, #ddd 5%, #eee 100% );
   background:linear-gradient( center top, #ddd 5%, #eee 100% );
 }
 
-#voteButton:active {
-  position:relative;
-  top:1px;
+button:active {
+  outline:0;
+  -webkit-box-shadow:inset 0 2px 4px rgba(0, 0, 0, 0.15),0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow:inset 0 2px 4px rgba(0, 0, 0, 0.15),0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow:inset 0 2px 4px rgba(0, 0, 0, 0.15),0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-#voteButton:hover,
+#button:hover,
 #cancel:hover,
-li:hover {
+li:hover,
+#login:hover {
   cursor: pointer;
 }
 
@@ -168,4 +184,102 @@ li:hover {
   -moz-box-flex: 1;
   -webkit-box-flex: 1;
   box-flex: 1;
+}
+
+#login,
+#user {
+  height: 20px;
+  margin: 10px;
+}
+
+#login:hover {
+  background-color: #2A75A9;
+  
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}
+
+/* Must be a class for JS control */
+.userHover {
+  -webkit-top-left-border-radius: 10px;
+  -moz-top-left-border-radius: 10px;
+  border-top-left-radius: 10px;
+  
+  -webkit-top-right-border-radius: 10px;
+  -moz-top-right-border-radius: 10px;
+  border-top-right-radius: 10px;
+  
+  background-color: #FA6121;
+}
+
+#userOptions {
+  border-top: 4px solid #FA6121;
+  position: absolute;
+  right: 10px;
+  top: 50px;
+  width: 200px;
+  background-color: #eee;
+  z-index: 2000;
+  
+  -webkit-box-shadow: 0px 12px 25px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 0px 12px 25px rgba(0, 0, 0, 1);
+  box-shadow: 0px 12px 25px rgba(0, 0, 0, 1);
+}
+
+#userOptions li {
+  color: #333;
+  list-style-type: none;
+}
+
+#userOptions li:hover {
+  color: #FA6121;
+}
+
+#userOptions ul {
+  padding: 0;
+  text-align: center;
+}
+
+#uploadForm form {
+    overflow: hidden;  
+}
+
+#uploadForm label {
+  display:block;
+  font-weight:bold;
+  text-align:right;
+  width:160px;
+  float:left;
+  margin-top: 10px;
+}
+
+#uploadForm input,
+#uploadForm .name {
+  float:left;
+  font-size:12px;
+  padding:4px 2px;
+  width:200px;
+  margin:10px 0 0 10px;
+}
+
+#uploadForm button {
+  clear: both;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+
+  color: #eee;
+  padding:6px 24px;
+  font-size: 16px;
+  
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #FF743F), color-stop(1, #FA6121) );
+  background:-moz-linear-gradient( center top, #FF743F 5%, #FA6121 100% );
+  background:linear-gradient( center top, #FF743F 5%, #FA6121 100% );
+}
+
+#uploadForm button:hover {
+  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #FA6121), color-stop(1, #FF743F) );
+  background:-moz-linear-gradient( center top, #FA6121 5%, #FF743F 100% );
+  background:linear-gradient( center top, #FA6121 5%, #FF743F 100% );
 }
