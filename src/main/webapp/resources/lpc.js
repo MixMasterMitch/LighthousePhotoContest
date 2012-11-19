@@ -1,5 +1,7 @@
 window.onload = function() {
 	
+	$.post("servlets/VoteServlet", {facebook_id: "12345", photo_id: "67890"});
+	
 	// Load pictures (To be done via AJAX in the future)
 	loadPicture("pictures/berty_2.jpeg", "'Now we see but a poor reflection as in a mirror; then we shall see face to face.' 1 Corinthians 13:12");
 	loadPicture("pictures/jacob_2.jpeg", "Even Garth finds wisdom in Proverbs.");
