@@ -1,11 +1,25 @@
 <!-- http://stackoverflow.com/questions/8198312/servlet-mapping-using-web-xml -->
 <web-app>
     <servlet>
-         <servlet-name>VoteServlet</servlet-name>
-         <servlet-path>com.uwlighthouse.photocontestbackend.VoteServlet</servlet-path>
+        <servlet-name>VoteServlet</servlet-name>
+        <servlet-class>main.java.com.uwlighthouse.photocontest.server.VoteServlet</servlet-class>
     </servlet>
+
     <servlet-mapping>
-         <servlet-name>VoteServlet</servlet-name>
-         <url-pattern>/voting</url-pattern>
+        <servlet-name>VoteServlet</servlet-name>
+        <url-pattern>/servlets/VoteServlet</url-pattern>
     </servlet-mapping>
+    
+    <!-- Hibernate filter for the requests that need a database transaction. 
+        This filter should be invoked before any calls to the database are made. -->
+    <filter>
+        <filter-name>HibernateFilter</filter-name>
+        <description>Opens/closes hibernate session for each request</description>
+        <filter-class>main.java.com.uwlighthouse.photocontest.hibernate.HibernateFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>HibernateFilter</filter-name>
+        <url-pattern>/servlets/*</url-pattern>
+    </filter-mapping>
+    
 </web-app>
