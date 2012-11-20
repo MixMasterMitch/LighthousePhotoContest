@@ -1,13 +1,20 @@
+var clickedPicture;
+
 window.onload = function() {
 	
-	$.post("servlets/VoteServlet", {facebook_id: "12345", photo_id: "67890"});
+	$("body").keydown(function(event) {
+		if (event.keyCode == 39) {
+			updateSelectedPicture(clickedPicture.next());
+		}
+		if (event.keyCode == 37) {
+			updateSelectedPicture(clickedPicture.prev());
+		}
+ 	});
 	
 	// Load pictures (To be done via AJAX in the future)
-	loadPicture("pictures/berty_2.jpeg", "'Now we see but a poor reflection as in a mirror; then we shall see face to face.' 1 Corinthians 13:12");
-	loadPicture("pictures/jacob_2.jpeg", "Even Garth finds wisdom in Proverbs.");
-	loadPicture("pictures/eli_2.jpeg", "'The light shines in the darkness and the darkness can never extinguish it' John 1:5");
-	loadPicture("pictures/mitch_2.jpeg", "'There's more, God's word warns us of danger and directs us to hidden treasure.' Psalm 19:11");
-	loadPicture("pictures/tore_2.jpeg", "Man cannot live on waffles alone ...");
+	loadPicture("pictures/eli_3.jpeg", "Throwback 64");
+	loadPicture("pictures/mitch_3.jpeg", "'What is Mario's favorite play?' -- Mamma Mia!");
+	loadPicture("pictures/berty_3.jpeg", "Life is filled with many buttons to press and play with... Will you press the right ones?");
 	
 	// Add event handlers
 	$(".glass, #cancel").click(toggleSelectedPicture);
@@ -49,11 +56,11 @@ function showUserOptions() {
 	$("#user").addClass("userHover");
 }
 
-// Updates the selectedPicture to be the picture that was just clicked.
-function updateSelectedPicture() {
-	$("#selectedPictureImg").attr("src", $(this).children()[0].src);
-	$("#caption").text($(this).children()[0].alt);
-	toggleSelectedPicture();
+//Updates the selectedPicture to be the picture that was just clicked.
+function updateSelectedPicture(picture) {
+	$("#selectedPictureImg").attr("src", picture.children()[0].src);
+	$("#caption").text(picture.children()[0].alt);
+	clickedPicture = picture;
 }
 
 // Toggles the selected picture
@@ -118,25 +125,30 @@ function loadPicture(src, caption) {
 				bringForward($(this), -100);
 			}
 		);
-		picture.click(updateSelectedPicture);
+		picture.click(function() {
+			updateSelectedPicture($(this));
+			toggleSelectedPicture();
+		})
 	});
 }
 
 // Submits the Facebook user's vote for the selected picture
 function vote() {
-	$.ajax({
-		method: "POST",
-		url: "vote_submit.php",
-		data: {"facebook_id": user.id, "picture_id": $("#selectedPictureImg").attr("src")},
-		dataType: "JSON"
-	}).done(function(response) {
-		hideAll();
-		if(response.voteStatus === "success") {
-			$("#thanksForVoting").show();
-		} else {
-			$("#alreadyVoted").show();
+	$.post("servlets/VoteServlet", 
+		{
+			facebook_id: user.id, 
+			image: $("#selectedPictureImg").attr("src"), 
+			name: user.name, 
+			week: "3"
+		}, function(response) {
+			hideAll();
+			if (response === 'already_voted') {
+				$("#alreadyVoted").show();
+			} else {
+				$("#thanksForVoting").show();
+			}
 		}
-	});
+	);
 }
 
 // http://stackoverflow.com/questions/166221/how-can-i-upload-files-asynchronously-with-jquery
