@@ -25,7 +25,7 @@ public class User {
 		this.id = id;
 	}
 	
-	@Column(name = "facebook_id", nullable = false, length = 32)
+	@Column(name = "fb_id", nullable = false, length = 32)
 	public String getFacebookId() {
 		return facebookId;
 	}

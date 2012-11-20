@@ -1,5 +1,9 @@
 package main.java.com.uwlighthouse.photocontest.hibernate;
 
+import main.java.com.uwlighthouse.photocontest.databaseobjects.Picture;
+import main.java.com.uwlighthouse.photocontest.databaseobjects.User;
+import main.java.com.uwlighthouse.photocontest.databaseobjects.Vote;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,7 +23,12 @@ public class HibernateUtil {
 	static {
         try {
             // Create the SessionFactory from hibernate.cfg.xml
-        	sessionFactory =  new AnnotationConfiguration().configure().buildSessionFactory();
+        	sessionFactory =  new AnnotationConfiguration()
+				.addAnnotatedClass(User.class)
+				.addAnnotatedClass(Picture.class)
+				.addAnnotatedClass(Vote.class)
+				.configure()
+				.buildSessionFactory();
  
         }
         catch (Throwable ex) {

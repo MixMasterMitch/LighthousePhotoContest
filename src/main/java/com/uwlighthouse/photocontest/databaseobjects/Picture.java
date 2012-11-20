@@ -6,13 +6,17 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 
+@Entity
+@Table(name = "pictures")
 public class Picture {
 	private Integer id;
-	private byte[] image;
+	private String imageKey;
 	private String caption;
 	private Integer week;
 	private Date uploadTime;
@@ -27,12 +31,12 @@ public class Picture {
 		this.id = id;
 	}
 	
-	@Column(name = "image", nullable = false)
-	public byte[] getImage() {
-		return image;
+	@Column(name = "s3_key", nullable = false)
+	public String getImageKey() {
+		return imageKey;
 	}
-	public void setImage(byte[] image) {
-		this.image = image;
+	public void setImageKey(String imageKey) {
+		this.imageKey = imageKey;
 	}
 	
 	@Column(name = "caption", nullable = false, length = 160)
