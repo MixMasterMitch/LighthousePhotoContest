@@ -1,16 +1,16 @@
-package main.java.com.uwlighthouse.photocontest.daos;
+package com.uwlighthouse.photocontest.daos;
 import static com.google.common.collect.Lists.newArrayList;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-import main.java.com.uwlighthouse.photocontest.hibernate.HibernateUtil;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Example;
+
+import com.uwlighthouse.photocontest.hibernate.HibernateUtil;
 
 /**
  * {@link GenericDao} that uses Hibernate.

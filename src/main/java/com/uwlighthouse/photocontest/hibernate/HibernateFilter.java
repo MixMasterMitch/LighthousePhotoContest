@@ -1,4 +1,4 @@
-package main.java.com.uwlighthouse.photocontest.hibernate;
+package com.uwlighthouse.photocontest.hibernate;
 
 import java.io.IOException;
 
@@ -11,6 +11,8 @@ import javax.servlet.ServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.uwlighthouse.photocontest.hibernate.HibernateUtil;
 
 /**
  * A servlet {@link Filter} that opens and closes a Hibernate {@link Session} for each request.

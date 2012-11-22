@@ -1,6 +1,7 @@
 var clickedPicture;
 
 window.onload = function() {
+	loadPictures();
 	
 	$("body").keydown(function(event) {
 		if (event.keyCode == 39) {
@@ -10,11 +11,6 @@ window.onload = function() {
 			updateSelectedPicture(clickedPicture.prev());
 		}
  	});
-	
-	// Load pictures (To be done via AJAX in the future)
-	loadPicture("pictures/eli_3.jpeg", "Throwback 64");
-	loadPicture("pictures/mitch_3.jpeg", "'What is Mario's favorite play?' -- Mamma Mia!");
-	loadPicture("pictures/berty_3.jpeg", "Life is filled with many buttons to press and play with... Will you press the right ones?");
 	
 	// Add event handlers
 	$(".glass, #cancel").click(toggleSelectedPicture);
@@ -34,14 +30,21 @@ window.onload = function() {
 		}
 	});
 	$("#login").click(fbLogin);
-	$("#uploadButton").click(uploadPicture);
+	$("#uploadForm form").ajaxForm(function() {
+		hideAll();
+    	$("#thanksForUploading").show();
+	})
 	$("#user").hover(showUserOptions, hideUserOptions);
 	$("#userOptions").hover(showUserOptions, hideUserOptions);
 	$("#upload").click(function() {
 		hideAll();
 		hideUserOptions();
 		$("#uploadForm").show();
+		$("#uploadForm form p.name").html(user.name);
+		$("#nameField").attr("value", user.name);
+		$("#idField").attr("value", user.id);
 	});
+	
 }
 
 // Hides the userOptions element
@@ -151,23 +154,16 @@ function vote() {
 	);
 }
 
-// http://stackoverflow.com/questions/166221/how-can-i-upload-files-asynchronously-with-jquery
-function uploadPicture() {
-	$.ajax({
-        url: 'upload.php',  //server script to process data
-        type: 'POST',
-        data: new FormData($("#uploadForm form")[0]),
-        //Options to tell JQuery not to process data or worry about content-type
-        cache: false,
-        contentType: false,
-        processData: false
-    }).done(function(response) {
-    	hideAll();
-    	$("#thanksForUploading").show();
-	});
-}
-
 // Hides ever element except the header element
 function hideAll() {
 	$("body > *").not("#header").hide();
+}
+
+function loadPictures() {
+	$.get('servlets/PictureServlet', {dataType: "application/json"}, function(data) {
+		$("#pictures").empty();
+		$.each(data, function(index, value) {
+			loadPicture(value.url, value.caption);
+		});
+	});
 }

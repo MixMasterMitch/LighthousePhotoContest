@@ -1,4 +1,4 @@
-package main.java.com.uwlighthouse.photocontest.databaseobjects;
+package com.uwlighthouse.photocontest.databaseobjects;
 
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.IDENTITY;
@@ -8,7 +8,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -23,7 +22,7 @@ public class Vote {
 	private Date voteTime;
 	private User user;
 	private Picture picture;
-	
+
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
@@ -33,7 +32,7 @@ public class Vote {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
 	@Temporal(TIMESTAMP)
 	@Column(name = "vote_time")
 	public Date getVoteTime() {
@@ -42,7 +41,7 @@ public class Vote {
 	public void setVoteTime(Date voteTime) {
 		this.voteTime = voteTime;
 	}
-	
+
 	@ManyToOne(fetch = EAGER)
 	@JoinColumn(name = "user_id", nullable = false)
 	public User getUser() {
@@ -51,7 +50,7 @@ public class Vote {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
 	@ManyToOne(fetch = EAGER)
 	@JoinColumn(name = "picture_id", nullable = false)
 	public Picture getPicture() {

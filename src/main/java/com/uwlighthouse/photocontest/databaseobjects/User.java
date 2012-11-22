@@ -1,4 +1,4 @@
-package main.java.com.uwlighthouse.photocontest.databaseobjects;
+package com.uwlighthouse.photocontest.databaseobjects;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -14,8 +14,8 @@ public class User {
 	private Integer id;
 	private String facebookId;
 	private String name;
-	
-	@Id 
+
+	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
@@ -24,7 +24,7 @@ public class User {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
 	@Column(name = "fb_id", nullable = false, length = 32)
 	public String getFacebookId() {
 		return facebookId;
@@ -32,7 +32,7 @@ public class User {
 	public void setFacebookId(String facebookId) {
 		this.facebookId = facebookId;
 	}
-	
+
 	@Column(name = "name", nullable = false, length = 255)
 	public String getName() {
 		return name;
@@ -40,7 +40,7 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
-	
+
+
+
 }

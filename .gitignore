@@ -4,3 +4,4 @@
 .settings
 target
 bin
+src/main/java/com/uwlighthouse/photocontest/aws/AwsCredentials.properties

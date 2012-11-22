@@ -4,7 +4,8 @@
     <title>Lighthouse Photo Contest</title>
     <link href="resources/lpc.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Sanchez' rel='stylesheet' type='text/css'>
-    <script src="resources/jquery.js"> </script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script> 
+    <script src="http://malsup.github.com/jquery.form.js"></script> 
     <script src="resources/lpc.js"> </script>
     <script src="resources/facebook.js"> </script>
 </head>
@@ -53,20 +54,22 @@
     
     <div id="uploadForm" class="message hidden">
         <h2>Upload a picture:</h2>
-        <p>The item for this week's photo contest is an <strong>N64 Controller</strong>.</p>
+        <p>The item for this week's photo contest is <strong>Thanksgiving Food</strong>.</p>
         
-        <form>
+        <form action="servlets/PictureServlet" method="post" enctype="multipart/form-data">
 	        <label>Name</label>
-	        <p class="name">Mitchell Loeppky</p>
+	        <p class="name"></p>
+	        
+            <input id="nameField" class="hidden" type="text" name="name">
+            <input id="idField"   class="hidden" type="text" name="id">
 	        
 	        <label>Picture</label>
-	        <input type="file">
+	        <input type="file" name="picture">
 	        
 	        <label>Caption</label>
-            <input type="text" maxlength="140">
+            <input type="text" name="caption" maxlength="140">
+            <input type="submit" value="Upload">
         </form>
-        
-        <button id="uploadButton">Upload</button>
     </div>
 </body>
 </html>

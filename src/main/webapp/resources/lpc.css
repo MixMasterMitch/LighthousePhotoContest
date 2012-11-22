@@ -114,7 +114,8 @@ body {
   float: right;
 }
 
-button {
+button,
+input[type=submit] {
   display: block;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
@@ -139,13 +140,15 @@ button {
   text-align: center;
 }
 
-button:hover {
+button:hover,
+input[type=submit]:hover {
   background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ddd), color-stop(1, #eee) );
   background:-moz-linear-gradient( center top, #ddd 5%, #eee 100% );
   background:linear-gradient( center top, #ddd 5%, #eee 100% );
 }
 
-button:active {
+button:active,
+input[type=submit]:active {
   outline:0;
   -webkit-box-shadow:inset 0 2px 4px rgba(0, 0, 0, 0.15),0 1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow:inset 0 2px 4px rgba(0, 0, 0, 0.15),0 1px 2px rgba(0, 0, 0, 0.05);
@@ -263,10 +266,9 @@ li:hover,
   margin:10px 0 0 10px;
 }
 
-#uploadForm button {
+#uploadForm input[type=submit] {
   clear: both;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 125px;
   margin-top: 20px;
 
   color: #eee;
@@ -278,7 +280,7 @@ li:hover,
   background:linear-gradient( center top, #FF743F 5%, #FA6121 100% );
 }
 
-#uploadForm button:hover {
+#uploadForm input[type=submit]:hover {
   background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #FA6121), color-stop(1, #FF743F) );
   background:-moz-linear-gradient( center top, #FA6121 5%, #FF743F 100% );
   background:linear-gradient( center top, #FA6121 5%, #FF743F 100% );

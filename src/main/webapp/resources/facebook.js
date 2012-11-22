@@ -5,13 +5,20 @@
 var user;
 			
 window.fbAsyncInit = function() {
-	FB.init({
+	var fbInit = {
 		appId      : '381115968629714', // App ID
 		channelUrl : 'channel.html', // Channel File
 		status     : true, // check login status
 		cookie     : true, // enable cookies to allow the server to access the session
 		xfbml      : true  // parse XFBML
-	});
+	};
+	
+	// For testing
+	if (window.location.hostname === "localhost") {
+		fbInit.appId = '451771748204012';
+	}
+	
+	FB.init(fbInit);
 	
 	//Automatically logs the user in if possible
 	FB.getLoginStatus(

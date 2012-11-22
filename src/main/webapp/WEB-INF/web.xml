@@ -2,7 +2,7 @@
 <web-app>
     <servlet>
         <servlet-name>VoteServlet</servlet-name>
-        <servlet-class>main.java.com.uwlighthouse.photocontest.server.VoteServlet</servlet-class>
+        <servlet-class>com.uwlighthouse.photocontest.server.VoteServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -10,12 +10,22 @@
         <url-pattern>/servlets/VoteServlet</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>PictureServlet</servlet-name>
+        <servlet-class>com.uwlighthouse.photocontest.server.PictureServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>PictureServlet</servlet-name>
+        <url-pattern>/servlets/PictureServlet</url-pattern>
+    </servlet-mapping>
+    
     <!-- Hibernate filter for the requests that need a database transaction. 
         This filter should be invoked before any calls to the database are made. -->
     <filter>
         <filter-name>HibernateFilter</filter-name>
         <description>Opens/closes hibernate session for each request</description>
-        <filter-class>main.java.com.uwlighthouse.photocontest.hibernate.HibernateFilter</filter-class>
+        <filter-class>com.uwlighthouse.photocontest.hibernate.HibernateFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>HibernateFilter</filter-name>

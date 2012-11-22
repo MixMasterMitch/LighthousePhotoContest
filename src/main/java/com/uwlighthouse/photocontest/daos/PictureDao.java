@@ -1,11 +1,11 @@
-package main.java.com.uwlighthouse.photocontest.daos;
+package com.uwlighthouse.photocontest.daos;
 
 import java.util.List;
 
-import main.java.com.uwlighthouse.photocontest.databaseobjects.Picture;
-import main.java.com.uwlighthouse.photocontest.databaseobjects.User;
-
 import org.hibernate.criterion.Restrictions;
+
+import com.uwlighthouse.photocontest.daos.GenericDao;
+import com.uwlighthouse.photocontest.databaseobjects.Picture;
 
 public class PictureDao extends GenericDao<Picture, Integer> {
 	public Picture findByImageKey(String imageKey) {
@@ -16,5 +16,10 @@ public class PictureDao extends GenericDao<Picture, Integer> {
 		} else {
 			return null;
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Picture> findByWeek(int week) {
+		return getCriteria().add(Restrictions.eq("week", week)).list();
 	}
 }

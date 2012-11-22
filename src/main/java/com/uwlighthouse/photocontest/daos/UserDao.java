@@ -1,10 +1,10 @@
-package main.java.com.uwlighthouse.photocontest.daos;
+package com.uwlighthouse.photocontest.daos;
 
 import java.util.List;
 
-import main.java.com.uwlighthouse.photocontest.databaseobjects.User;
-
 import org.hibernate.criterion.Restrictions;
+
+import com.uwlighthouse.photocontest.databaseobjects.User;
 
 public class UserDao extends GenericDao<User, Integer> {
 	public User findByFacebookId(String facebookId) {

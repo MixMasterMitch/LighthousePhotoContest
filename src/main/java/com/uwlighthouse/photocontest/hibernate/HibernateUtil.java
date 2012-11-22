@@ -1,8 +1,4 @@
-package main.java.com.uwlighthouse.photocontest.hibernate;
-
-import main.java.com.uwlighthouse.photocontest.databaseobjects.Picture;
-import main.java.com.uwlighthouse.photocontest.databaseobjects.User;
-import main.java.com.uwlighthouse.photocontest.databaseobjects.Vote;
+package com.uwlighthouse.photocontest.hibernate;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -11,6 +7,10 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.uwlighthouse.photocontest.databaseobjects.Picture;
+import com.uwlighthouse.photocontest.databaseobjects.User;
+import com.uwlighthouse.photocontest.databaseobjects.Vote;
 
 /**
  * Simple class for interfacing with Hibernate.
@@ -21,20 +21,20 @@ public class HibernateUtil {
 
 	private static final SessionFactory sessionFactory;
 	static {
-        try {
-            // Create the SessionFactory from hibernate.cfg.xml
-        	sessionFactory =  new AnnotationConfiguration()
-				.addAnnotatedClass(User.class)
-				.addAnnotatedClass(Picture.class)
-				.addAnnotatedClass(Vote.class)
-				.configure()
-				.buildSessionFactory();
- 
-        }
-        catch (Throwable ex) {
-            logger.error("Initial SessionFactory creation failed." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
+		try {
+			// Create the SessionFactory from hibernate.cfg.xml
+			sessionFactory =  new AnnotationConfiguration()
+			.addAnnotatedClass(User.class)
+			.addAnnotatedClass(Picture.class)
+			.addAnnotatedClass(Vote.class)
+			.configure()
+			.buildSessionFactory();
+
+		}
+		catch (Throwable ex) {
+			logger.error("Initial SessionFactory creation failed." + ex);
+			throw new ExceptionInInitializerError(ex);
+		}
 	}
 
 	/**

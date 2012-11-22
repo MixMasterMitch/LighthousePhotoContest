@@ -1,5 +1,6 @@
-package main.java.com.uwlighthouse.photocontest.databaseobjects;
+package com.uwlighthouse.photocontest.databaseobjects;
 
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.TemporalType.TIMESTAMP;
 
@@ -9,6 +10,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -20,8 +23,9 @@ public class Picture {
 	private String caption;
 	private Integer week;
 	private Date uploadTime;
-	
-	@Id 
+	private User user;
+
+	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
@@ -30,7 +34,7 @@ public class Picture {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
+
 	@Column(name = "s3_key", nullable = false)
 	public String getImageKey() {
 		return imageKey;
@@ -38,7 +42,7 @@ public class Picture {
 	public void setImageKey(String imageKey) {
 		this.imageKey = imageKey;
 	}
-	
+
 	@Column(name = "caption", nullable = false, length = 160)
 	public String getCaption() {
 		return caption;
@@ -46,7 +50,7 @@ public class Picture {
 	public void setCaption(String caption) {
 		this.caption = caption;
 	}
-	
+
 	@Column(name = "week", length = 6)
 	public Integer getWeek() {
 		return week;
@@ -54,7 +58,7 @@ public class Picture {
 	public void setWeek(Integer week) {
 		this.week = week;
 	}
-	
+
 	@Temporal(TIMESTAMP)
 	@Column(name = "upload_time")
 	public Date getUploadTime() {
@@ -62,5 +66,14 @@ public class Picture {
 	}
 	public void setUploadTime(Date uploadTime) {
 		this.uploadTime = uploadTime;
+	}
+
+	@ManyToOne(fetch = EAGER)
+	@JoinColumn(name = "user_id", nullable = false)
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 }
