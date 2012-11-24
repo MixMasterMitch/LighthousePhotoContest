@@ -30,9 +30,13 @@ window.onload = function() {
 		}
 	});
 	$("#login").click(fbLogin);
-	$("#uploadForm form").ajaxForm(function() {
+	$("#uploadForm form").ajaxForm(function(response) {
 		hideAll();
-    	$("#thanksForUploading").show();
+		if (response === 'upload_success') {
+			$("#thanksForUploading").show();
+		} else {
+			$("#uploadFailed").show();
+		}
 	})
 	$("#user").hover(showUserOptions, hideUserOptions);
 	$("#userOptions").hover(showUserOptions, hideUserOptions);

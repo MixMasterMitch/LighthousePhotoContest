@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.coobird.thumbnailator.Thumbnails;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -30,7 +32,6 @@ import com.uwlighthouse.photocontest.daos.PictureDao;
 import com.uwlighthouse.photocontest.daos.UserDao;
 import com.uwlighthouse.photocontest.databaseobjects.Picture;
 import com.uwlighthouse.photocontest.databaseobjects.User;
-import com.uwlighthouse.photocontest.server.ImageDto;
 
 public class PictureServlet extends HttpServlet {
 
@@ -80,40 +81,52 @@ public class PictureServlet extends HttpServlet {
 		try {
 			items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
 		} catch (FileUploadException e) {
-			response.getWriter().append("upload_failed");
+			uploadFailed(response);
+			return;
 		}
 
 		// Instantiate user, picture, and uploadPicture
 		User user = new User();
 		Picture picture = new Picture();
-		File uploadPicture = File.createTempFile("picture-upload-", "jpeg");
+		File uploadPicture = File.createTempFile("picture-upload-", ".jpg");
 
 		// Sets form fields to user and picture
 		// Writes picture to uploadPicture
 		for (FileItem item : items) {
-			if (item.isFormField()) {
-				if (item.getFieldName().equals("name")) {
-					user.setName(item.getString());
-				} else if (item.getFieldName().equals("id")) {
-					user.setFacebookId(item.getString());
-				} else if (item.getFieldName().equals("caption")) {
-					picture.setCaption(item.getString());
-				}
-			} else {
+			if (item.getFieldName().equals("name")) {
+				user.setName(item.getString());
+			} else if (item.getFieldName().equals("id")) {
+				user.setFacebookId(item.getString());
+			} else if (item.getFieldName().equals("caption")) {
+				picture.setCaption(item.getString());
+			} else if (item.getFieldName().equals("picture")) {
 				try {
-					item.write(uploadPicture);
+					if (item.getContentType().equals("image/jpeg") || item.getContentType().equals("image/png")) {
+						item.write(uploadPicture);
+					} else {
+						uploadFailed(response);
+						return;
+					}
 				} catch (Exception e) {
-					response.getWriter().append("upload_failed");
+					uploadFailed(response);
 				}
 			}
 		}
 
+		// Resize image
+		File formatedPicture = File.createTempFile("picture-formatted-", ".jpg");
+		Thumbnails.of(uploadPicture)
+		.size(800, 1600)
+		.outputFormat("jpg")
+		.outputQuality(1)
+		.toFile(formatedPicture);
+
 		// Write uploadPicture to S3
 		AmazonS3 s3 = getS3Client();
-		String key = "week-" + getNextWeekNumber() + "/" + user.getName().toLowerCase().replace(' ', '_') + ".jpeg"; // week-#/first_last.jpeg
+		String key = "week-" + getNextWeekNumber() + "/" + user.getName().toLowerCase().replace(' ', '_') + ".jpg"; // week-#/first_last.jpg
 		ObjectMetadata metadata = new ObjectMetadata();
 		metadata.setContentType("image/jpeg");
-		s3.putObject(new PutObjectRequest(S3_BUCKET, key, uploadPicture).withCannedAcl(PublicRead).withMetadata(metadata));
+		s3.putObject(new PutObjectRequest(S3_BUCKET, key, formatedPicture).withCannedAcl(PublicRead).withMetadata(metadata));
 
 		// Persist user if they don't exist yet
 		User persistedUser = new UserDao().findByFacebookId(user.getFacebookId());
@@ -135,6 +148,12 @@ public class PictureServlet extends HttpServlet {
 
 		// Save picture
 		new PictureDao().makePersistent(picture);
+
+		response.getWriter().append("upload_success");
+	}
+
+	private void uploadFailed(HttpServletResponse response) throws IOException {
+		response.getWriter().append("upload_failed");
 	}
 
 	/**
