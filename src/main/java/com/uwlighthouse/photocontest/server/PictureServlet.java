@@ -37,7 +37,7 @@ public class PictureServlet extends HttpServlet {
 
 	private static final String S3_BUCKET = "images.uwlighthouse.com";
 	private static final String S3_BUCKET_URL = "http://" + S3_BUCKET + "/";
-	private static final DateTime CONTEST_START = new DateTime(2012, 11, 5, 6, 30, DateTimeZone.forID("America/Los_Angeles")); // 6:30 PM 11/5/12 PST
+	private static final DateTime CONTEST_START = new DateTime(2012, 11, 5, 18, 30, DateTimeZone.forID("America/Los_Angeles")); // 6:30 PM 11/5/12 PST
 
 	/**
 	 * 
