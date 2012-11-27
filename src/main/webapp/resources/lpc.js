@@ -145,8 +145,7 @@ function vote() {
 		{
 			facebook_id: user.id, 
 			image: $("#selectedPictureImg").attr("src"), 
-			name: user.name, 
-			week: "3"
+			name: user.name
 		}, function(response) {
 			hideAll();
 			if (response === 'already_voted') {

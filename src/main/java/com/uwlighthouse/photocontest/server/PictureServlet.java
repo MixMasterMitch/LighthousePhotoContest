@@ -159,14 +159,14 @@ public class PictureServlet extends HttpServlet {
 	/**
 	 * @return The current contest week where the first contest week is 1.
 	 */
-	private static int getCurrentWeekNumber() {
+	static int getCurrentWeekNumber() {
 		return new Period(CONTEST_START, new DateTime()).getWeeks() + 1;
 	}
 
 	/**
 	 * @return The next contest week number where 2 would be returned during the first contest week.
 	 */
-	private static int getNextWeekNumber() {
+	static int getNextWeekNumber() {
 		return getCurrentWeekNumber() + 1;
 	}
 }

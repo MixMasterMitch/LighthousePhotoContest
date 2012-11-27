@@ -42,7 +42,7 @@ public class VoteServlet extends HttpServlet {
 		}
 
 		// Find if the user already voted
-		Vote vote = new VoteDao().findByUserAndWeek(user, Integer.parseInt(request.getParameter("week")));
+		Vote vote = new VoteDao().findByUserAndWeek(user, PictureServlet.getCurrentWeekNumber());
 
 		// If not then cast a vote
 		if (vote == null) {
