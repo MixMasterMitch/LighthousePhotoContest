@@ -1,16 +1,21 @@
 package com.uwlighthouse.photocontest.server;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.uwlighthouse.photocontest.daos.PictureDao;
 import com.uwlighthouse.photocontest.daos.UserDao;
 import com.uwlighthouse.photocontest.daos.VoteDao;
+import com.uwlighthouse.photocontest.databaseobjects.Picture;
 import com.uwlighthouse.photocontest.databaseobjects.User;
 import com.uwlighthouse.photocontest.databaseobjects.Vote;
 
@@ -57,6 +62,19 @@ public class VoteServlet extends HttpServlet {
 		} else {
 			response.getWriter().append("already_voted");
 		}
+	}
+
+	@Override
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		List<VotesDto> votes = newArrayList();
+		for (Picture picture : new PictureDao().findByWeek(PictureServlet.getCurrentWeekNumber())) {
+			votes.add(new VotesDto(picture.getUser().getName(), picture.getVotes().size()));
+		}
+
+		// Convert to JSON
+		response.setContentType("application/json");
+		response.getWriter().print(new Gson().toJson(votes));
 	}
 
 }

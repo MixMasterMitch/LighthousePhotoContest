@@ -1,11 +1,15 @@
 package com.uwlighthouse.photocontest.databaseobjects;
 
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
+
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -14,6 +18,7 @@ public class User {
 	private Integer id;
 	private String facebookId;
 	private String name;
+	private Set<Picture> picture;
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -41,6 +46,11 @@ public class User {
 		this.name = name;
 	}
 
-
-
+	@OneToMany(fetch = LAZY, mappedBy = "user")
+	public Set<Picture> getPicture() {
+		return picture;
+	}
+	public void setPicture(Set<Picture> picture) {
+		this.picture = picture;
+	}
 }

@@ -1,10 +1,12 @@
 package com.uwlighthouse.photocontest.databaseobjects;
 
 import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 import static javax.persistence.TemporalType.TIMESTAMP;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -24,6 +27,7 @@ public class Picture {
 	private Integer week;
 	private Date uploadTime;
 	private User user;
+	private Set<Vote> votes;
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -75,5 +79,13 @@ public class Picture {
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	@OneToMany(fetch = LAZY, mappedBy = "picture")
+	public Set<Vote> getVotes() {
+		return votes;
+	}
+	public void setVotes(Set<Vote> votes) {
+		this.votes = votes;
 	}
 }
