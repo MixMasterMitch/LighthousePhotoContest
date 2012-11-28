@@ -3,6 +3,8 @@ var clickedPicture;
 window.onload = function() {
 	loadPictures();
 	
+	toLocation("#pictures");
+	
 	$("body").keydown(function(event) {
 		if (event.keyCode == 39) {
 			updateSelectedPicture(clickedPicture.next());
@@ -33,25 +35,21 @@ window.onload = function() {
 	$("#uploadForm form").ajaxForm(function(response) {
 		hideAll();
 		if (response === 'upload_success') {
-			$("#thanksForUploading").show();
+			toLocation("#thanksForUploading");
 		} else {
-			$("#uploadFailed").show();
+			toLocation("#uploadFailed");
 		}
 	})
 	$("#user").hover(showUserOptions, hideUserOptions);
 	$("#userOptions").hover(showUserOptions, hideUserOptions);
 	$("#upload").click(function() {
-		hideAll();
-		hideUserOptions();
-		$("#uploadForm").show();
 		$("#uploadForm form p.name").html(user.name);
 		$("#nameField").attr("value", user.name);
 		$("#idField").attr("value", user.id);
+		toLocation("#uploadForm");
 	});
 	$("#viewStandings").click(function() {
-		hideAll();
-		hideUserOptions();
-		$("#standings").show();
+		toLocation("#standings");
 	});
 	
 }
@@ -154,9 +152,9 @@ function vote() {
 		}, function(response) {
 			hideAll();
 			if (response === 'already_voted') {
-				$("#alreadyVoted").show();
+				toLocation("#alreadyVoted");
 			} else {
-				$("#thanksForVoting").show();
+				toLocation("#thanksForVoting");
 			}
 		}
 	);
@@ -173,5 +171,19 @@ function loadPictures() {
 		$.each(data, function(index, value) {
 			loadPicture(value.url, value.caption);
 		});
+	});
+}
+
+// Displays the given element and adds it to the browser history.
+// The given element should represent the id (with #) of and element in the HTML.
+function toLocation(element) {
+	hideAll();
+	hideUserOptions();
+	$(element).show();
+	history.pushState(null, null, element);
+	window.addEventListener("popstate", function(e) {
+		hideAll();
+		hideUserOptions();
+		$(window.location.hash).show();
 	});
 }
