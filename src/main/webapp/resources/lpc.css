@@ -172,6 +172,7 @@ li:hover,
 
 #header {
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,.6)), color-stop(100%,rgba(0,0,0,0)));
+  width: 100%;
   
   -webkit-box-orient: horizontal;
   -moz-box-orient: horizontal;
