@@ -26,8 +26,9 @@ function drawChart(data) {
            backgroundColor: '#eee',
            colors: ['#FA6121'],
            legend: {position: 'none'},
-           chartArea: {left: 20, top: 20, width: '100%', height: '83%'},
-           fontName: 'Sanchez'
+           chartArea: {left: 25, top: 20, width: '100%', height: '83%'},
+           fontName: 'Sanchez',
+           vAxis: {minValue: 0, format:'#'}
 	};
 
     // Instantiate and draw the chart with options.
