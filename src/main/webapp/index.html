@@ -6,8 +6,10 @@
     <link href='http://fonts.googleapis.com/css?family=Sanchez' rel='stylesheet' type='text/css'>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script> 
     <script src="http://malsup.github.com/jquery.form.js"></script> 
-    <script src="resources/lpc.js"> </script>
-    <script src="resources/facebook.js"> </script>
+    <script src="https://www.google.com/jsapi"></script>
+    <script src="resources/lpc.js"></script>
+    <script src="resources/facebook.js"></script>
+    <script src="resources/googleCharts.js"></script>
 </head>
 
 <body>
@@ -19,6 +21,7 @@
         <div id="userOptions" class="hidden">
             <ul>
                 <li id="upload">Upload a Picture</li>
+                <li id="viewStandings">View standings</li>
             </ul>
         </div>
     </div>
@@ -55,6 +58,11 @@
     <div id="uploadFailed" class="message tilted hidden">
         <h2>Upload failed!</h2>
         <p>I am really sorry, but your upload failed. Feel free to try again.</p>
+    </div>
+    
+    <div id="standings" class="message hidden">
+        <h2>This week's standings</h2>
+        <div id="standingsChart"></div>
     </div>
     
     <div id="uploadForm" class="message hidden">

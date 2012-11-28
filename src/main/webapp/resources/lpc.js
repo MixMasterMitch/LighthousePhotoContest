@@ -48,6 +48,11 @@ window.onload = function() {
 		$("#nameField").attr("value", user.name);
 		$("#idField").attr("value", user.id);
 	});
+	$("#viewStandings").click(function() {
+		hideAll();
+		hideUserOptions();
+		$("#standings").show();
+	});
 	
 }
 
