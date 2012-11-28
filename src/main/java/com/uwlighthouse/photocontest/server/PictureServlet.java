@@ -3,6 +3,9 @@ package com.uwlighthouse.photocontest.server;
 import static com.amazonaws.services.s3.model.CannedAccessControlList.PublicRead;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.uwlighthouse.photocontest.aws.AwsUtil.getS3Client;
+import static com.uwlighthouse.photocontest.server.ServerUtil.S3_BUCKET;
+import static com.uwlighthouse.photocontest.server.ServerUtil.getCurrentWeekNumber;
+import static com.uwlighthouse.photocontest.server.ServerUtil.getNextWeekNumber;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,9 +23,6 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Period;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -34,10 +34,6 @@ import com.uwlighthouse.photocontest.databaseobjects.Picture;
 import com.uwlighthouse.photocontest.databaseobjects.User;
 
 public class PictureServlet extends HttpServlet {
-
-	private static final String S3_BUCKET = "images.uwlighthouse.com";
-	private static final String S3_BUCKET_URL = "http://" + S3_BUCKET + "/";
-	private static final DateTime CONTEST_START = new DateTime(2012, 11, 5, 18, 30, DateTimeZone.forID("America/Los_Angeles")); // 6:30 PM 11/5/12 PST
 
 	/**
 	 * 
@@ -55,9 +51,23 @@ public class PictureServlet extends HttpServlet {
 		List<ImageDto> images = newArrayList();
 		int week = getCurrentWeekNumber();
 
-		// Get this week's image urls and captions.
-		for (Picture pic : new PictureDao().findByWeek(week)) {
-			images.add(new ImageDto(S3_BUCKET_URL + pic.getImageKey(), pic.getCaption()));
+		Object previousWinnersParameter = request.getParameter("previousWinners");
+		if (previousWinnersParameter != null && previousWinnersParameter.equals("true")) {
+			// For each week get the winning picture
+			for (int i = 1; i < week; i++) {
+				Picture winner = null;
+				for (Picture pic : new PictureDao().findByWeek(i)) {
+					if (winner == null || winner.getVotes().size() < pic.getVotes().size()) {
+						winner = pic;
+					}
+				}
+				images.add(new ImageDto(winner));
+			}
+		} else {
+			// Get this week's image urls and captions.
+			for (Picture pic : new PictureDao().findByWeek(week)) {
+				images.add(new ImageDto(pic));
+			}
 		}
 
 		// Convert to JSON
@@ -154,19 +164,5 @@ public class PictureServlet extends HttpServlet {
 
 	private void uploadFailed(HttpServletResponse response) throws IOException {
 		response.getWriter().append("upload_failed");
-	}
-
-	/**
-	 * @return The current contest week where the first contest week is 1.
-	 */
-	static int getCurrentWeekNumber() {
-		return new Period(CONTEST_START, new DateTime()).getWeeks() + 1;
-	}
-
-	/**
-	 * @return The next contest week number where 2 would be returned during the first contest week.
-	 */
-	static int getNextWeekNumber() {
-		return getCurrentWeekNumber() + 1;
 	}
 }

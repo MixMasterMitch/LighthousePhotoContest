@@ -2,6 +2,7 @@ var clickedPicture;
 
 window.onload = function() {
 	loadPictures();
+	loadPreviousWinners();
 	
 	if (window.location.hash) {
 		toLocation(window.location.hash);
@@ -54,6 +55,9 @@ window.onload = function() {
 	});
 	$("#viewStandings").click(function() {
 		toLocation("#standings");
+	});
+	$("#viewPreviousWinners").click(function() {
+		toLocation("#previousWinners");
 	});
 	
 }
@@ -115,8 +119,7 @@ function bringForward(element, zIndexes) {
 	element.css("z-index", Math.max(0, zIndexes + parseInt(element.css("z-index"))));
 }
 
-// Loads the given picture and injects it into the page
-function loadPicture(src, caption) {
+function loadPicture(element, src, caption, photographer) {
 	$("<img>", {
 		"src": src,
 		"alt": caption
@@ -125,7 +128,10 @@ function loadPicture(src, caption) {
 			"class": "picture"
 		});
 		$(this).appendTo(picture);
-		picture.appendTo($("#pictures"));
+		if (photographer) {
+			$("<p>", {text: photographer}).appendTo(picture);
+		}
+		picture.appendTo($(element));
 		
 		// Randomly shift and rotate pictures
 		rotateElement(picture, 4);
@@ -173,7 +179,16 @@ function loadPictures() {
 	$.get('servlets/PictureServlet', {dataType: "application/json"}, function(data) {
 		$("#pictures").empty();
 		$.each(data, function(index, value) {
-			loadPicture(value.url, value.caption);
+			loadPicture("#pictures", value.url, value.caption);
+		});
+	});
+}
+
+function loadPreviousWinners() {
+	$.get('servlets/PictureServlet', {previousWinners: "true", dataType: "application/json"}, function(data) {
+		$("#previousWinners").empty();
+		$.each(data, function(index, value) {
+			loadPicture("#previousWinners", value.url, value.caption, value.photographer);
 		});
 	});
 }

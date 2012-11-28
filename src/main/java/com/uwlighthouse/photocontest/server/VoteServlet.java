@@ -1,6 +1,7 @@
 package com.uwlighthouse.photocontest.server;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.uwlighthouse.photocontest.server.ServerUtil.getCurrentWeekNumber;
 
 import java.io.IOException;
 import java.util.Date;
@@ -47,7 +48,7 @@ public class VoteServlet extends HttpServlet {
 		}
 
 		// Find if the user already voted
-		Vote vote = new VoteDao().findByUserAndWeek(user, PictureServlet.getCurrentWeekNumber());
+		Vote vote = new VoteDao().findByUserAndWeek(user, getCurrentWeekNumber());
 
 		// If not then cast a vote
 		if (vote == null) {
@@ -68,7 +69,7 @@ public class VoteServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		List<VotesDto> votes = newArrayList();
-		for (Picture picture : new PictureDao().findByWeek(PictureServlet.getCurrentWeekNumber())) {
+		for (Picture picture : new PictureDao().findByWeek(getCurrentWeekNumber())) {
 			votes.add(new VotesDto(picture.getUser().getName(), picture.getVotes().size()));
 		}
 
