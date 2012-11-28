@@ -3,7 +3,11 @@ var clickedPicture;
 window.onload = function() {
 	loadPictures();
 	
-	toLocation("#pictures");
+	if (window.location.hash) {
+		toLocation(window.location.hash);
+	} else {
+		toLocation("#pictures");
+	}
 	
 	$("body").keydown(function(event) {
 		if (event.keyCode == 39) {
