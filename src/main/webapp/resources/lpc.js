@@ -3,6 +3,7 @@ var clickedPicture;
 window.onload = function() {
 	loadPictures();
 	loadPreviousWinners();
+	loadItems();
 	
 	if (window.location.hash) {
 		toLocation(window.location.hash);
@@ -59,7 +60,7 @@ window.onload = function() {
 	$("#viewPreviousWinners").click(function() {
 		toLocation("#previousWinners");
 	});
-	
+	$(".popup").hover(pauseAnimation, resumeAnimation);
 }
 
 // Hides the userOptions element
@@ -112,6 +113,35 @@ function scaleElement(element, scaleFactor) {
 	element.css("-webkit-transform", "scale(" + scaleFactor + "," + scaleFactor + ")");
 	element.css("-moz-transform", "scale(" + scaleFactor + "," + scaleFactor + ")");
 	element.css("transform", "scale(" + scaleFactor + "," + scaleFactor + ")");
+}
+
+// Applies the animation property with the given css key-frames and duration to the given element.
+// The default keyframes are "defaultPopupFrames" and the default duration is 8 seconds.
+function playAnimation(element, keyframes, duration) {
+	if (!keyframes) {
+		keyframes = "defaultPopupFrames";
+	}
+	if (!duration) {
+		duration = 8;
+	}
+	element.css("-webkit-animation", keyframes + " " + duration + "s");
+	element.css("-moz-animation", keyframes + " " + duration + "s");
+	element.css("animation", keyframes + " " + duration + "s");
+}
+
+// Sets the animation play state to be the given state of the given element
+function setAnimationState(state, element) {
+	element.css("-webkit-animation-play-state", state);
+	element.css("-moz-animation-play-state", state);
+	element.css("animation-play-state", state);
+}
+
+function resumeAnimation() {
+	setAnimationState("running", $(this));
+}
+
+function pauseAnimation() {
+	setAnimationState("paused", $(this));
 }
 
 // Increases the z-index of the given element by the given number of indexes.
@@ -172,7 +202,7 @@ function vote() {
 
 // Hides ever element except the header element
 function hideAll() {
-	$("body > *").not("#header").hide();
+	$("body > *").not("#header").not(".popup").hide();
 }
 
 function loadPictures() {
@@ -190,6 +220,13 @@ function loadPreviousWinners() {
 		$.each(data, function(index, value) {
 			loadPicture("#previousWinners", value.url, value.caption, value.photographer);
 		});
+	});
+}
+
+function loadItems() {
+	$.get('servlets/ItemServlet', {dataType: "application/json"}, function(data) {
+		$("#thisWeeksItem").text(data.thisWeek);
+		$("#nextWeeksItem").text(data.nextWeek);
 	});
 }
 

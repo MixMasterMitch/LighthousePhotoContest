@@ -20,6 +20,16 @@
         <url-pattern>/servlets/PictureServlet</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>ItemServlet</servlet-name>
+        <servlet-class>com.uwlighthouse.photocontest.server.ItemServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ItemServlet</servlet-name>
+        <url-pattern>/servlets/ItemServlet</url-pattern>
+    </servlet-mapping>
+    
     <!-- Hibernate filter for the requests that need a database transaction. 
         This filter should be invoked before any calls to the database are made. -->
     <filter>

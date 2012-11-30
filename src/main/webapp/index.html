@@ -72,7 +72,7 @@
     
     <div id="uploadForm" class="message hidden">
         <h2>Upload a picture:</h2>
-        <p>The item for this week's photo contest is a <strong>one dollar bill</strong>.</p>
+        <p>The item for this week's photo contest is a <strong id="nextWeeksItem">one dollar bill</strong>.</p>
         
         <form action="servlets/PictureServlet" method="post" enctype="multipart/form-data">
 	        <label>Name</label>
@@ -89,5 +89,15 @@
             <input type="submit" value="Upload">
         </form>
     </div>
+    
+    <!-- Popups -->
+    <div id="itemPopup" class="popup">
+        This week's item is <strong id="thisWeeksItem"></strong>
+    </div>
+    
+    <div id="tutorialPopup" class="popup">
+        <a href="http://apple.com">Want a quick tutorial? Click me!</a>
+    </div>
+    
 </body>
 </html>

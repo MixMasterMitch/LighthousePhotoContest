@@ -8,6 +8,7 @@ import org.hibernate.cfg.AnnotationConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.uwlighthouse.photocontest.databaseobjects.Item;
 import com.uwlighthouse.photocontest.databaseobjects.Picture;
 import com.uwlighthouse.photocontest.databaseobjects.User;
 import com.uwlighthouse.photocontest.databaseobjects.Vote;
@@ -27,6 +28,7 @@ public class HibernateUtil {
 			.addAnnotatedClass(User.class)
 			.addAnnotatedClass(Picture.class)
 			.addAnnotatedClass(Vote.class)
+			.addAnnotatedClass(Item.class)
 			.configure()
 			.buildSessionFactory();
 

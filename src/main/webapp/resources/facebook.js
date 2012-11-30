@@ -26,6 +26,9 @@ window.fbAsyncInit = function() {
 			console.log("got user status");
 			if(response.status === 'connected') {
 				loadFbUserData(response.authResponse.userID);
+				playAnimation($("#itemPopup"));
+			} else {
+				//playAnimation($("#tutorialPopup"))
 			}
 		}
 	);

@@ -9,6 +9,15 @@ body {
   color: #fff;
 }
 
+a {
+  color: #333;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #FA6121;
+}
+
 .picture {
   list-style-type: none;
   padding: 12px 12px 24px 12px;
@@ -40,7 +49,7 @@ body {
   transform: rotate(-2deg) translate3d( 0, 0, 0);
 }
 
-
+.popup,
 .message {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -48,21 +57,27 @@ body {
   background-color: #eee;
   color: #333;
   padding: 25px;
-  margin: 200px auto;
-  width: 450px;
   -webkit-box-shadow: 0px 0px 100px rgba(0, 0, 0, 1);
   -moz-box-shadow: 0px 0px 100px rgba(0, 0, 0, 1);
   box-shadow: 0px 0px 100px rgba(0, 0, 0, 1);
 }
 
+.message {
+  margin: 200px auto;
+  width: 450px;
+}
+
+.popup h2,
 .message h2 {
   font-size: 300%;
 }
 
+.popup p,
 .message p {
   font-size: 80%;
 }
 
+.popup *,
 .message * {
   margin: 0;
 }
@@ -295,4 +310,27 @@ li:hover,
   background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #FA6121), color-stop(1, #FF743F) );
   background:-moz-linear-gradient( center top, #FA6121 5%, #FF743F 100% );
   background:linear-gradient( center top, #FA6121 5%, #FF743F 100% );
+}
+
+#tutorialPopup,
+#itemPopup {
+  position: absolute;
+  left: 40px;
+  bottom: -200px;
+}
+
+@keyframes defaultPopupFrames {
+  0% {bottom: -200px; opacity: 1;}
+  20% {bottom: -200px; opacity: 1;}
+  40% {bottom: 40px; opacity: 1;}
+  80% {bottom: 40px; opacity: 1;}
+  100% {bottom: 40px; opacity: 0;}
+}
+
+@-webkit-keyframes defaultPopupFrames {
+  0% {bottom: -200px; opacity: 1;}
+  20% {bottom: -200px; opacity: 1;}
+  40% {bottom: 40px; opacity: 1;}
+  80% {bottom: 40px; opacity: 1;}
+  100% {bottom: 40px; opacity: 0;}
 }
