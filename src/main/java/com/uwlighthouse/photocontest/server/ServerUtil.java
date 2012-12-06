@@ -1,8 +1,9 @@
 package com.uwlighthouse.photocontest.server;
 
+import static org.joda.time.Weeks.weeksBetween;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.Period;
 
 public class ServerUtil {
 	public static final String S3_BUCKET = "images.uwlighthouse.com";
@@ -14,7 +15,7 @@ public class ServerUtil {
 	 * @return The current contest week where the first contest week is 1.
 	 */
 	public static int getCurrentWeekNumber() {
-		return new Period(CONTEST_START, new DateTime()).getWeeks() + 1;
+		return weeksBetween(CONTEST_START, new DateTime()).getWeeks() + 1;
 	}
 
 	/**
