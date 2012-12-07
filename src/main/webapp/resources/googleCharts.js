@@ -2,9 +2,12 @@
 google.load('visualization', '1.0', {'packages':['corechart']});
 
 // Get vote count when the Google Visualization API is loaded.
-google.setOnLoadCallback(function() {
+google.setOnLoadCallback(getChartData);
+
+// Gets the chart data from the server and then automatically draws a chart with the data.
+function getChartData() {
 	$.get('servlets/VoteServlet', {dataType: "application/json"}, drawChart);
-});
+}
 
 // Populates a chart with the given data 
 function drawChart(data) {

@@ -70,7 +70,9 @@ window.onload = function() {
 	$("#viewPreviousWinners").click(function() {
 		toLocation("#previousWinners");
 	});
-	//$(".popup").hover(cancelFadeOut, fadeOut);
+	$("#viewRules").click(function() {
+		toLocation("#rules");
+	});
 	
 	$("#startTutorial").click(function() {
 		tutorialMode = true;
@@ -206,6 +208,7 @@ function vote() {
 				fadeOut($("#votePopup"));
 				showPopup($("#explorePopup"), "fadeInRightBig");
 			}
+			getChartData();
 		}
 	);
 }
