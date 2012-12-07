@@ -3,6 +3,7 @@
 <head>
     <title>Lighthouse Photo Contest</title>
     <link href="resources/lpc.css" rel="stylesheet" />
+    <link href="resources/animate.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Sanchez' rel='stylesheet' type='text/css'>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script> 
     <script src="http://malsup.github.com/jquery.form.js"></script> 
@@ -91,12 +92,39 @@
     </div>
     
     <!-- Popups -->
-    <div id="itemPopup" class="popup">
+    <div id="itemPopup" class="popup animated hidden">
         This week's item is <strong id="thisWeeksItem"></strong>
     </div>
     
-    <div id="tutorialPopup" class="popup">
-        <a href="http://apple.com">Want a quick tutorial? Click me!</a>
+    <div id="tutorialPopup" class="popup animated hidden">
+        <a id="startTutorial">Want a quick tutorial? Click me!</a>
+    </div>
+    
+    <div id="loginPopup" class="popup animated hidden">
+        <img src="resources/arrowUp.png" />
+        Start by logging in! You aren't done until you click "Log In With Facebook"
+    </div>
+    
+    <div id="picturePopup" class="popup animated hidden">
+        <img src="resources/arrowUp.png" />
+        Now click on the first picture.
+    </div>
+    
+    <div id="arrowKeyPopup" class="popup animated hidden">
+        To go to the next picture push the right arrow key.
+    </div>
+    
+    <div id="hoverPopup" class="popup animated hidden">
+        Great! now hover over the picture so that you can see the caption and the vote button.
+    </div>
+    
+    <div id="votePopup" class="popup animated hidden">
+        Now look at all the photos, then go back to your favorite picture, and then click the "Vote" button.
+    </div>
+    
+    <div id="explorePopup" class="popup animated hidden">
+        <img src="resources/arrowUp.png" />
+        Awesome! Now hover over your name and explore!
     </div>
     
 </body>

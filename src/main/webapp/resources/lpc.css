@@ -67,6 +67,12 @@ a:hover {
   width: 450px;
 }
 
+.popup {
+  position: fixed;
+  max-width: 300px;
+  z-index: 2000;
+}
+
 .popup h2,
 .message h2 {
   font-size: 300%;
@@ -80,6 +86,41 @@ a:hover {
 .popup *,
 .message * {
   margin: 0;
+}
+
+.popup img {
+  height: 20px;
+  margin: 0 5px -3px 0;
+}
+
+#itemPopup,
+#tutorialPopup {
+  bottom: 40px;
+  left: 40px;
+}
+
+#picturePopup {
+  top: 320px;
+  left: 20px;
+}
+
+#loginPopup,
+#explorePopup {
+  top: 60px;
+  right: 10px;
+}
+
+#loginPopup img,
+#explorePopup img {
+  float: right;
+  margin: 0 0 -3px -2px;
+}
+
+#arrowKeyPopup,
+#hoverPopup,
+#votePopup {
+  bottom: 10px;
+  left: 10px;
 }
 
 #standings {
@@ -248,7 +289,7 @@ li:hover,
   top: 50px;
   width: 230px;
   background-color: #eee;
-  z-index: 2000;
+  z-index: 4000;
   
   -webkit-box-shadow: 0px 12px 25px rgba(0, 0, 0, 1);
   -moz-box-shadow: 0px 12px 25px rgba(0, 0, 0, 1);
@@ -310,27 +351,4 @@ li:hover,
   background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #FA6121), color-stop(1, #FF743F) );
   background:-moz-linear-gradient( center top, #FA6121 5%, #FF743F 100% );
   background:linear-gradient( center top, #FA6121 5%, #FF743F 100% );
-}
-
-#tutorialPopup,
-#itemPopup {
-  position: fixed;
-  left: 40px;
-  bottom: -200px;
-}
-
-@keyframes defaultPopupFrames {
-  0% {bottom: -200px; opacity: 1;}
-  20% {bottom: -200px; opacity: 1;}
-  40% {bottom: 40px; opacity: 1;}
-  80% {bottom: 40px; opacity: 1;}
-  100% {bottom: 40px; opacity: 0;}
-}
-
-@-webkit-keyframes defaultPopupFrames {
-  0% {bottom: -200px; opacity: 1;}
-  20% {bottom: -200px; opacity: 1;}
-  40% {bottom: 40px; opacity: 1;}
-  80% {bottom: 40px; opacity: 1;}
-  100% {bottom: 40px; opacity: 0;}
 }

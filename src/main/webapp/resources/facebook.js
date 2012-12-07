@@ -26,9 +26,11 @@ window.fbAsyncInit = function() {
 			console.log("got user status");
 			if(response.status === 'connected') {
 				loadFbUserData(response.authResponse.userID);
-				playAnimation($("#itemPopup"));
-			} else {
-				//playAnimation($("#tutorialPopup"))
+				showPopup($("#itemPopup"), "fadeInUpBig");
+				scheduleFadeOut($("#itemPopup"), 7000);
+			} else if (window.location.hash === "#pictures") {
+				showPopup($("#tutorialPopup"), "fadeInUpBig");
+				scheduleFadeOut($("#tutorialPopup"), 7000);
 			}
 		}
 	);
@@ -49,6 +51,10 @@ function fbLogin(callback) {
 	FB.login(function(response) {
 		if (response.authResponse) {
 			loadFbUserData(response.authResponse.userID, callback);
+			if (tutorialMode) {
+				fadeOut($("#loginPopup"));
+				showPopup($("#picturePopup"), "fadeInLeftBig");
+			}
 		}
 	});
 }
@@ -64,7 +70,7 @@ function loadFbUserData(id, callback) {
 		$("#login").toggle();
 		$("#user").html(user.name);
 		$("#user").toggle();
-		if (callback) {
+		if (typeof(callback) === 'function') {
 			callback();
 		}
 	});

@@ -1,4 +1,6 @@
 var clickedPicture;
+var popupTimer;
+var tutorialMode = false;
 
 window.onload = function() {
 	loadPictures();
@@ -14,6 +16,10 @@ window.onload = function() {
 	$("body").keydown(function(event) {
 		if (event.keyCode == 39) {
 			updateSelectedPicture(clickedPicture.next());
+			if (tutorialMode) {
+				fadeOut($("#arrowKeyPopup"));
+				showPopup($("#hoverPopup"), "fadeInLeftBig");
+			}
 		}
 		if (event.keyCode == 37) {
 			updateSelectedPicture(clickedPicture.prev());
@@ -25,6 +31,10 @@ window.onload = function() {
 	$("#selectedPicture").hover(
 		function() {
 			$("#selectedPicture > *").not("#selectedPictureImg").css("opacity", 1);
+			if (tutorialMode && $("#hoverPopup").hasClass("fadeInLeftBig")) {
+				fadeOut($("#hoverPopup"));
+				showPopup($("#votePopup"), "fadeInLeftBig");
+			}
 		},
 		function() {
 			$("#selectedPicture > *").not("#selectedPictureImg").css("opacity", 0);
@@ -60,7 +70,14 @@ window.onload = function() {
 	$("#viewPreviousWinners").click(function() {
 		toLocation("#previousWinners");
 	});
-	$(".popup").hover(pauseAnimation, resumeAnimation);
+	//$(".popup").hover(cancelFadeOut, fadeOut);
+	
+	$("#startTutorial").click(function() {
+		tutorialMode = true;
+		cancelFadeOut();
+		fadeOut($("#tutorialPopup"));
+		showPopup($("#loginPopup"), "fadeInRightBig");
+	});
 }
 
 // Hides the userOptions element
@@ -71,6 +88,9 @@ function hideUserOptions() {
 
 // Shows the userOptions element
 function showUserOptions() {
+	if (tutorialMode && $("#picturePopup").hasClass("fadeOut")) {
+		fadeOut($("#explorePopup"));
+	}
 	$("#userOptions").removeClass("hidden");
 	$("#user").addClass("userHover");
 }
@@ -115,33 +135,15 @@ function scaleElement(element, scaleFactor) {
 	element.css("transform", "scale(" + scaleFactor + "," + scaleFactor + ")");
 }
 
-// Applies the animation property with the given css key-frames and duration to the given element.
-// The default keyframes are "defaultPopupFrames" and the default duration is 8 seconds.
-function playAnimation(element, keyframes, duration) {
-	if (!keyframes) {
-		keyframes = "defaultPopupFrames";
+function fadeOut(element) {
+	if (!element) {
+		element = $(this);
 	}
-	if (!duration) {
-		duration = 8;
-	}
-	element.css("-webkit-animation", keyframes + " " + duration + "s");
-	element.css("-moz-animation", keyframes + " " + duration + "s");
-	element.css("animation", keyframes + " " + duration + "s");
+	element.addClass("fadeOut");
 }
 
-// Sets the animation play state to be the given state of the given element
-function setAnimationState(state, element) {
-	element.css("-webkit-animation-play-state", state);
-	element.css("-moz-animation-play-state", state);
-	element.css("animation-play-state", state);
-}
-
-function resumeAnimation() {
-	setAnimationState("running", $(this));
-}
-
-function pauseAnimation() {
-	setAnimationState("paused", $(this));
+function cancelFadeOut() {
+	window.clearInterval(popupTimer);
 }
 
 // Increases the z-index of the given element by the given number of indexes.
@@ -178,6 +180,10 @@ function loadPicture(element, src, caption, photographer) {
 		picture.click(function() {
 			updateSelectedPicture($(this));
 			toggleSelectedPicture();
+			if (tutorialMode) {
+				fadeOut($("#picturePopup"));
+				showPopup($("#arrowKeyPopup"), "fadeInLeftBig");
+			}
 		})
 	});
 }
@@ -195,6 +201,10 @@ function vote() {
 				toLocation("#alreadyVoted");
 			} else {
 				toLocation("#thanksForVoting");
+			}
+			if (tutorialMode) {
+				fadeOut($("#votePopup"));
+				showPopup($("#explorePopup"), "fadeInRightBig");
 			}
 		}
 	);
@@ -228,6 +238,14 @@ function loadItems() {
 		$("#thisWeeksItem").text(data.thisWeek);
 		$("#nextWeeksItem").text(data.nextWeek);
 	});
+}
+
+function showPopup(element, animation) {
+	element.addClass(animation).show();
+}
+
+function scheduleFadeOut(element, delay) {
+	popupTimer = window.setInterval(function() {element.addClass("fadeOut")}, 7000);
 }
 
 // Displays the given element and adds it to the browser history.
