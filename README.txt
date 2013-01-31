@@ -1,1 +1,3 @@
-README
+I live in a house called The Lighthouse with 9 other guys. Some of us are very interested in photography. So as a fun competition we created a weekly photo contest. I thought it would be fun to create a website to enable our friends to log into their facebook accounts and vote for the best picture.
+
+The technologies involved in this project include JavaScript, HTML5, CSS3, Java, Hibernate, and Amazon Web Services (AWS). The site is being hosted Amazon Route 53, submitted images are stored in Amazon S3, voting data is stored in Amazon RDS, the Tomcat web server is managed by Amazon Elastic Beanstalk utilizing Amazon EC2 server instances.
