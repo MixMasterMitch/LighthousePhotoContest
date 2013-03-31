@@ -1,13 +1,19 @@
 package com.uwlighthouse.photocontest.server;
 
+import com.uwlighthouse.photocontest.databaseobjects.Item;
+
 public class ItemDto {
 	private String thisWeek;
 	private String nextWeek;
 
-	public ItemDto(String thisWeek, String nextWeek) {
+	public ItemDto(Item thisWeek, Item nextWeek) {
 		super();
-		setThisWeek(thisWeek);
-		setNextWeek(nextWeek);
+		if (thisWeek != null) {
+			setThisWeek(thisWeek.getItem());
+		}
+		if (nextWeek != null) {
+			setNextWeek(nextWeek.getItem());
+		}
 	}
 
 	public ItemDto() {

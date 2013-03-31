@@ -59,9 +59,6 @@ window.onload = function() {
 	$("#user").hover(showUserOptions, hideUserOptions);
 	$("#userOptions").hover(showUserOptions, hideUserOptions);
 	$("#upload").click(function() {
-		$("#uploadForm form p.name").html(user.name);
-		$("#nameField").attr("value", user.name);
-		$("#idField").attr("value", user.id);
 		toLocation("#uploadForm");
 	});
 	$("#viewStandings").click(function() {
@@ -97,11 +94,16 @@ function showUserOptions() {
 	$("#user").addClass("userHover");
 }
 
-//Updates the selectedPicture to be the picture that was just clicked.
-function updateSelectedPicture(picture) {
+//Updates the selectedPicture to be the picture that was just clicked. If votable, the vote button will be displayed.
+function updateSelectedPicture(picture, votable) {
 	$("#selectedPictureImg").attr("src", picture.children()[0].src);
 	$("#caption").text(picture.children()[0].alt);
 	clickedPicture = picture;
+	if (votable) {
+	    $("#voteButton").show();
+	} else {
+        $("#voteButton").hide();
+	}
 }
 
 // Toggles the selected picture
@@ -238,8 +240,19 @@ function loadPreviousWinners() {
 
 function loadItems() {
 	$.get('servlets/ItemServlet', {dataType: "application/json"}, function(data) {
+	    console.log("got items");
 		$("#thisWeeksItem").text(data.thisWeek);
 		$("#nextWeeksItem").text(data.nextWeek);
+        if (data.thisWeek) {
+            showPopup($("#itemPopup"), "fadeInUpBig");
+            scheduleFadeOut($("#itemPopup"), 7000);
+        } else {
+            toLocation("#noContestThisWeek");
+        }
+        if (!data.nextWeek) {
+            $("#upload").hide();
+            $("#isItemNextWeek").hide();
+        }
 	});
 }
 

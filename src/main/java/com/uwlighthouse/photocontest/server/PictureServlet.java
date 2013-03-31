@@ -61,7 +61,9 @@ public class PictureServlet extends HttpServlet {
 						winner = pic;
 					}
 				}
-				images.add(new ImageDto(winner));
+				if (winner != null) {
+					images.add(new ImageDto(winner));
+				}
 			}
 		} else {
 			// Get this week's image urls and captions.

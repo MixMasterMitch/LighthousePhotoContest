@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.uwlighthouse.photocontest.daos.ItemDao;
+import com.uwlighthouse.photocontest.databaseobjects.Item;
 
 public class ItemServlet extends HttpServlet {
 
@@ -28,8 +29,8 @@ public class ItemServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String thisWeek = new ItemDao().findByWeek(getCurrentWeekNumber()).get(0).getItem();
-		String nextWeek = new ItemDao().findByWeek(getNextWeekNumber()).get(0).getItem();
+		Item thisWeek = new ItemDao().findByWeek(getCurrentWeekNumber());
+		Item nextWeek = new ItemDao().findByWeek(getNextWeekNumber());
 
 		response.setContentType("application/json");
 		response.getWriter().print(new Gson().toJson(new ItemDto(thisWeek, nextWeek)));

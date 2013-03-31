@@ -26,8 +26,6 @@ window.fbAsyncInit = function() {
 			console.log("got user status");
 			if(response.status === 'connected') {
 				loadFbUserData(response.authResponse.userID);
-				showPopup($("#itemPopup"), "fadeInUpBig");
-				scheduleFadeOut($("#itemPopup"), 7000);
 			} else if (window.location.hash === "#pictures") {
 				showPopup($("#tutorialPopup"), "fadeInUpBig");
 				scheduleFadeOut($("#tutorialPopup"), 7000);
@@ -70,6 +68,12 @@ function loadFbUserData(id, callback) {
 		$("#login").toggle();
 		$("#user").html(user.name);
 		$("#user").toggle();
+		
+		//Populate Upload Form
+        $("#uploadForm form p.name").html(user.name);
+        $("#nameField").attr("value", user.name);
+        $("#idField").attr("value", user.id);
+        
 		if (typeof(callback) === 'function') {
 			callback();
 		}

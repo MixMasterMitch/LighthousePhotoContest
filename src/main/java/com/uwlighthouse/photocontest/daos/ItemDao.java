@@ -8,7 +8,11 @@ import com.uwlighthouse.photocontest.databaseobjects.Item;
 
 public class ItemDao extends GenericDao<Item, Integer> {
 	@SuppressWarnings("unchecked")
-	public List<Item> findByWeek(int week) {
-		return getCriteria().add(Restrictions.eq("week", week)).list();
+	public Item findByWeek(int week) {
+		List<Item> weeksItemList = getCriteria().add(Restrictions.eq("week", week)).list();
+		if (weeksItemList.size() > 0) {
+			return weeksItemList.get(0);
+		}
+		return null;
 	}
 }
